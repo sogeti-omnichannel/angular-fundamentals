@@ -14,7 +14,12 @@ export class MatchListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.matches = this.matchService.getMatches();
+    this.matchService
+      .getMatches()
+      .subscribe(
+        matches => this.matches = matches,
+        error => console.log(error)
+      )
   }
 
 }

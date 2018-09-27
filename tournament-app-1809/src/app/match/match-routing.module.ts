@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'match/add', component: MatchAddComponent },
   { path: 'match/edit', component: MatchEditComponent },
   { path: 'match/list', component: MatchListComponent },
+  { path: 'match/edit/:id', component: MatchEditComponent},
 ];
 
 @NgModule({
