@@ -3,20 +3,31 @@
 - run `npm install -g @angular/cli` to install the Angular CLI globally.
 - run `ng new tournament-app --routing` to generate a new project called 'tournament-app' and directly generate routing capabilities.
 - run `cd tournament-app` to navigate to the generated directory.
-- open a new terminal window, navigate to the tournament-app folder and run `npm start`.
-- run `ng generate module match --routing` to create your first module. Notice only files being created, app module is not updated. Todo for later.
-- run `ng generate component match/match-add` to create the first component within the generated match module.
+- open a new terminal window, navigate to the tournament-app folder and run `npm start`. The Angular CLI already executed `npm install`, so no need to do this manually.
+
+### Generate modules
+Besides the default App module our app will get functionalities grouped into the Match and Player module.
+- run `ng generate module match --routing`
+- run `ng generate module player --routing`
+
+Notice that when modules are generated only files are created. The parent App module is not updated with a reference of the generated modules. We'll have to specify the parent later on ourselves.
+
+### Generate components
+- run `ng generate component match/match-add`
 - run `ng generate component match/match-edit`
 - run `ng generate component match/match-list`
 - run `ng generate component match/match-list-item`
-- run `ng generate module player --routing`
 - run `ng generate component player/player-rank`
+
+Notice that when components are generated their specified module (Match and Player) are automatically modified to reference the generated component. 
 
 ## 2. Add routing to the app
 **app.module.ts**
-- import MatchModule and PlayerModule
+- import MatchModule and PlayerModule and reference them in the imports array.
 
 **match-routing.module.ts**
+With routing we can route specific urls to components. If you navigate to for example `http://localhost:4200/match/add` the MatchAddComponent will be displayed within the app.component.html file replacing the `<router-outlet></router-outlet>` element.
+
 ```typescript
   { path: 'match/add', component: MatchAddComponent },
   { path: 'match/edit', component: MatchEditComponent },
@@ -26,6 +37,8 @@
 Autoimport `MatchAddComponent`, `MatchEditComponent` and `MatchListComponent`.
 
 **player-routing.module.ts**
+Repeat the same for the Player module.
+
 ```typescript
 { path: 'player/rank', component: PlayerRankComponent }
 ```
@@ -157,15 +170,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 - Use formbuilder to create the form with validators
 
 **match-add.component.ts**
+- Import FormBuilder, FormGroup and Validators at the top of `match-add.component.ts`.
 ```typescript
   import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+```
 
-  addMatchForm = this.fb.group({
-    player1name: ['', Validators.required],
-    player1score: ['', Validators.min(0)],
-    player2name: ['', Validators.required],
-    player2score: ['', Validators.min(0)]
-  });
+- Add addMatchForm as public property to the class.
+- Use dependency injection to make FormBuilder available within the class named as property fb.
+- Setup the form in the ngOnInit() function.
+```typescript
+  public addMatchForm: FormGroup;
+
+  constructor(private fb: FormBuilder, private matchService: MatchService) { }
+
+  ngOnInit() {
+    this.addMatchForm = this.fb.group({
+      player1name: ['', Validators.required],
+      player1score: ['', Validators.min(0)],
+      player2name: ['', Validators.required],
+      player2score: ['', Validators.min(0)]
+    });
+  }
 ```
 
 - Render the form
@@ -178,13 +203,13 @@ import { ReactiveFormsModule } from '@angular/forms';
   <div class="player1">
     <input type="text" formControlName="player1name" placeholder="Player 1">
     <input type="number" formControlName="player1score" placeholder="Score">
-	<div *ngIf="!addMatchForm.get("player1name").pristine && addMatchForm.get("player1name").hasError("required")">
+	<div *ngIf="!addMatchForm.get('player1name').pristine && addMatchForm.get('player1name').hasError('required')">
 		Player name is required
 	</div>
-	<div *ngIf="!addMatchForm.get("player1score").pristine && addMatchForm.get("player1score").hasError("required")">
+	<div *ngIf="!addMatchForm.get('player1score').pristine && addMatchForm.get('player1score').hasError('required')">
 		Score is required
 	</div>
-	<div *ngIf="!addMatchForm.get("player1score").pristine && addMatchForm.get("player1score").hasError("min")">
+  <div *ngIf="!addMatchForm.get('player1score').pristine && addMatchForm.get('player1score').hasError('min')">
 		Score needs to be 0 or higher
 	</div>
 
