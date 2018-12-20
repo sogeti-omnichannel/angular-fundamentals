@@ -1,0 +1,23 @@
+{
+  "name": "angular2-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "nodemonConfig": {
+    "ignore": ["db.json"],
+    "delay": "2500"
+  },
+  "author": "Jurgen Sweere",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "lowdb": "^1.0.0",
+    "shortid": "^2.2.8"
+  }
+}
