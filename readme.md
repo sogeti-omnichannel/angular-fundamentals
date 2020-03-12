@@ -1,4 +1,8 @@
 # Day 1 - Getting started
+## Requirements
+- Visual Studio Code
+- Node.js
+
 ## 1. Generate app, modules & components
 - run `npm install -g @angular/cli` to install the Angular CLI globally.
 - run `ng new tournament-app --routing` to generate a new project called 'tournament-app' and directly generate routing capabilities.
@@ -30,11 +34,10 @@ With routing we can route specific urls to components. If you navigate to for ex
 
 ```typescript
   { path: 'match/add', component: MatchAddComponent },
-  { path: 'match/edit', component: MatchEditComponent },
   { path: 'match/list', component: MatchListComponent },
 ```
 
-Autoimport `MatchAddComponent`, `MatchEditComponent` and `MatchListComponent`.
+Autoimport `MatchAddComponent` and `MatchListComponent`.
 
 **player-routing.module.ts**
 Repeat the same for the Player module.
@@ -332,12 +335,26 @@ ngOnInit() {
 ```
  
 # Bonus material – edit match
+### Generate Match Edit component
+- run `ng generate component match/match-edit`
+
+### Update route
 **match-routing.module.ts**
+Add the edit route the match-routing module and make sure to add the id as variable.
 ```typescript
   { path: 'match/edit/:id', component: MatchEditComponent },
 ```
 
-**match-edit.component.js**
+### Add link to the edit page
+**match-list-item.component.html**
+```html
+<a routerLink="/match/edit/{{match.id}}">edit</a>
+```
+
+Check if the link works in the browser.
+
+## Setup 
+**match-edit.component.ts**
 ```typescript
   import { Component, OnInit, OnChanges } from '@angular/core';
   import { Router, ActivatedRoute, ParamMap } from '@angular/router';
