@@ -146,7 +146,11 @@ import { Match } from '../match';
 <h2>Match History</h2>
 <ul>
   <li *ngFor="let match of matches">
+	  
+LET THE PEOPLE FILL IN THE NEXT LINE, copy the previous code to match-list-item and put down the selector belows  
     <app-match-list-item [match]="match"></app-match-list-item>
+	  
+	  
     <a routerLink="/match/edit/{{match.id}}">edit</a>
   </li>
 </ul>
