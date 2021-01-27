@@ -1,1 +1,17 @@
-<h1>Tournament app</h1>
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div class="container-fluid"><a class="navbar-brand" href="#">Tournament app</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/match/list">Matches</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/player/rank">Rank</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
