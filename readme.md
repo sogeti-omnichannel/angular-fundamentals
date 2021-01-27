@@ -1,67 +1,56 @@
-# Sogeti Angular course - Getting started
-## Generate app, modules & components
-- run `npm install -g @angular/cli` to install the Angular CLI globally.
-- run `ng new tournament-app --routing --strict` to generate a new project called 'tournament-app' and directly generate routing capabilities.
-- choose `CSS` as stylesheet format
-- run `cd tournament-app` to navigate to the generated directory.
-- open a new terminal window, navigate to the tournament-app folder and run `npm start`. The Angular CLI already executed `npm install`, so no need to do this manually.
+# Sogeti Angular course - Routing
 
-## Generate modules
-Besides the default App module our app will get functionalities grouped into the Match and Player module.
-- run `ng generate module match --routing`
-- run `ng generate module player --routing`
+## Adding routing to the app
+**match-routing.module.ts**
+With routing we can route specific urls to components. If you navigate to for example `http://localhost:4200/match/add` the MatchAddComponent will be displayed within the app.component.html file replacing the `<router-outlet></router-outlet>` element.
 
-Notice that when modules are generated only files are created. The parent App module is not updated with a reference of the generated modules. We'll have to specify the parent ourselves.
-- import MatchModule and PlayerModule in the app.module.ts and reference them in the imports array.
-
-**src/app/app.module.ts**
 ```typescript
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MatchModule } from './match/match.module';
-import { PlayerModule } from './player/player.module';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    PlayerModule,
-    MatchModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+  { path: 'match/add', component: MatchAddComponent },
+  { path: 'match/list', component: MatchListComponent },
 ```
 
-## Generate components
-- run `ng generate component match/match-add`
-- run `ng generate component match/match-list`
-- run `ng generate component match/match-list-item`
-- run `ng generate component player/player-rank`
+Autoimport `MatchAddComponent` and `MatchListComponent`.
 
-Notice that when components are generated their specified module (Match and Player) are automatically modified to reference the generated component. 
+**player-routing.module.ts**
+Repeat the same for the Player module.
 
-## Clean up app component
-The app component contains a lot of sample code. We will build it up from scratch, so start by removing its content and adding a title.
+```typescript
+{ path: 'player/rank', component: PlayerRankComponent }
+```
 
-**src/app/app.component.html**
+Autoimport `PlayerRankComponent`.
+
+**app-routing.module.ts** 
+```typescript
+{ path: '', redirectTo: '/match/list', pathMatch: 'full' },
+```
+
+We will have to add a `router-outlet` to the main app component. This is the place where your routed components will show up.
+**app.component.html**
 ```html
-<h1>Tournament app</h1>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
 ```
 
-## Adding Bootstrap as dependency
-We are going to use basic Bootstrap to style our app. This practise showcases how you would add a dependency to your project.
-- run `npm install bootstrap`
-- Add Bootstrap to the project by importing bootstrap in the styles.css file
-
-**src/styles.css**
-```css
-@import "~bootstrap/dist/css/bootstrap.min.css";
+Add a Bootstrap menu to the app component. See how the links are using the routerLink directive to route to the components.
+**app.component.html**
+```html
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div class="container-fluid"><a class="navbar-brand" href="#">Tournament app</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/match/list">Matches</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/player/rank">Rank</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
 ```
