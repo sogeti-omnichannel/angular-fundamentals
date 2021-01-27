@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig": {
-    "ignore": ["db.json"],
+    "ignore": [
+      "db.json"
+    ],
     "delay": "2500"
   },
   "author": "Jurgen Sweere",
