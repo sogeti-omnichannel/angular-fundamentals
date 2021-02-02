@@ -1,71 +1,98 @@
 # Sogeti Angular course - Observables
 
 ## 1. Using back end to get matches
-- Load http client module in match module
+- Import the `HttpClientModule` in the match module
 
-**match.module.ts**
+**src/app/match/match.module.ts**
 ```typescript
 import { HttpClientModule } from '@angular/common/http';
 ```
 
 - Update function for getMatches to use http
-**src/match/match.service.ts**
+**src/app/match/match.service.ts**
 ```typescript
-constructor(private http: HttpClient) {
+export class MatchService {
+  _matches: Match[] = MATCHES;
+  baseUrl = 'http://localhost:8080';
+  matchUrl = '/api/match';
 
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs;
+  constructor(private http: HttpClient) { }
 
-getMatches(): Observable<Match[]> {
+  get matches(): Observable<Match[]> {
     return this.http.get<Match[]>(this.baseUrl + this.matchUrl);
-}
-
-baseUrl: string;
-matchUrl: string;
-
-  constructor(private http: HttpClient) {
-    this.baseUrl = 'http://localhost:8080';
-    this.matchUrl = '/api/match';
   }
+
+  add(match: Match): Match {
+    match.date = new Date();
+    this._matches.push(match);
+    return match;
+  }
+}
 ```
 
 - Update component to subscribe to changes
 
-**src/match/match-list/match-list.component.ts**
+**src/app/match/match-list/match-list.component.ts**
 ```typescript
-ngOnInit() {
-    this.matchService.getMatches().subscribe(
+export class MatchListComponent implements OnInit {
+  matches: Match[] = [];
+
+  constructor(private matchService: MatchService) { }
+
+  ngOnInit(): void {
+    this.matchService.matches.subscribe(
         matches => this.matches = matches
     );
+  }
 }
 ```
  
 ## 2. Using back end to add matches
 - Update add function
 
-**src/match/match.service.ts**
+**src/app/match/match.service.ts**
 ```typescript
-  import { HttpClient, HttpHeaders } from '@angular/common/http';
+export class MatchService {
+  _matches: Match[] = MATCHES;
+  baseUrl = 'http://localhost:8080';
+  matchUrl = '/api/match';
 
-  const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+  constructor(private http: HttpClient) { }
 
-  add(match): Observable<Match> {
+  get matches(): Observable<Match[]> {
+    return this.http.get<Match[]>(this.baseUrl + this.matchUrl);
+  }
+
+  add(match: Match): Observable<Match> {
     return this.http.post<Match>(this.baseUrl + this.matchUrl, match, httpOptions);
   }
+}
 ```
 
 - Subscribe to changes in add component
-
-**src/match/match-add/match-add.component.ts**
+**src/app/match/match-add/match-add.component.ts**
 ```typescript
-  constructor(private fb: FormBuilder, private matchService: MatchService) { }
-
   onSubmit() {
     this.matchService.add(
       this.addMatchForm.value
     ).subscribe();
   }
 ```
- 
+
+- Navigate back to `match/list` route after adding the score
+**src/app/match/match-add/match-add.component.ts**
+```typescript
+  constructor(...
+    private router: Router,
+  ) { 
+    ...
+  }
+
+  onSubmit() {
+    this.matchService.add(
+      this.addMatchForm.value
+    ).subscribe(() => {
+      this.router.navigate(['/match/list']);
+    });
+  }
+```
