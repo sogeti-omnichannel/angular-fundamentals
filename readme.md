@@ -1,98 +1,106 @@
-# Sogeti Angular course - Components & Services
-## 1. Add mockdata, match and player interface to the project
-- Merge files from `/server/frontend/src/` in the tournament-app project (`/tournament-app/src/`)
+# Sogeti Angular course - Forms
 
-## 2. Generate services
-- run `ng generate service match/match`
-- run `ng generate service player/player`
-- Return mock data from service
+## 1. Adding a match
+- Create a link to navigate to the form
 
-- Provide service in module
-**src/match/match.module.ts**
-```typescript
-import { BrowserModule } from '@angular/platform-browser';
-import { MatchService } from './match.service';
-...
-providers: [MatchService]
-...
+**match-list.component.html**
+```html
+<a routerLink="/match/add">Add Match</a>
 ```
 
-**src/player/player.module.ts**
+- Import the reactive forms module in the match module, by adding `ReactiveFormsModule` to the imports array
+**match.module.ts**
 ```typescript
-import { BrowserModule } from '@angular/platform-browser';
-import { PlayerService } from './player.service';
-...
-providers: [PlayerService]
-...
+import { ReactiveFormsModule } from '@angular/forms';
 ```
 
-**src/match/match.service.ts**
+- Use formbuilder to create the form with validators
+
+**match-add.component.ts**
+- Import FormBuilder, FormGroup and Validators at the top of `match-add.component.ts`.
 ```typescript
-import { Injectable } from '@angular/core';
-import { Match } from './match';
+  import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+```
 
-import { MATCHES } from './../mock-data';
+- Add addMatchForm as public property to the class.
+- Use dependency injection to make FormBuilder available within the class named as property fb.
+- Setup the form in the ngOnInit() function.
+```typescript
+  public addMatchForm: FormGroup;
 
-@Injectable()
-export class MatchService {
-  _matches: Match[] = MATCHES;
+  constructor(private fb: FormBuilder, private matchService: MatchService) { }
 
-  get matches(): Match[] {
-    return this._matches;
+  ngOnInit() {
+    this.addMatchForm = this.fb.group({
+      player1name: ['', Validators.required],
+      player1score: ['', Validators.min(0)],
+      player2name: ['', Validators.required],
+      player2score: ['', Validators.min(0)]
+    });
   }
-}
 ```
 
-## 3. Call match service from list component
-**src/match/match-list/match-list.component.ts**
+- Render the form
+
+**match-add.component.html**
+```html
+<h2>Add Match</h2>
+
+<form [formGroup]="addMatchForm">
+  <div class="player1">
+    <input type="text" formControlName="player1name" placeholder="Player 1">
+    <input type="number" formControlName="player1score" placeholder="Score">
+	<div *ngIf="!addMatchForm.get('player1name').pristine && addMatchForm.get('player1name').hasError('required')">
+		Player name is required
+	</div>
+	<div *ngIf="!addMatchForm.get('player1score').pristine && addMatchForm.get('player1score').hasError('required')">
+		Score is required
+	</div>
+  <div *ngIf="!addMatchForm.get('player1score').pristine && addMatchForm.get('player1score').hasError('min')">
+		Score needs to be 0 or higher
+	</div>
+
+
+  </div>
+  vs
+  <div class="player2">
+    <input type="text" formControlName="player2name" placeholder="Player 2">
+    <input type="number" formControlName="player2score" placeholder="Score">
+	<div><!-- Repeat error handling --></div>
+  </div>
+
+  <div>
+    <button type="submit" [disabled]="!addMatchForm.valid">Add</button>
+  </div>
+</form>
+```
+
+## 2. Writing to service
+- Add function to match service to store new matches
+
+**match.service.ts**
 ```typescript
-export class MatchListComponent {
-  matches = this.matchService.matches;
-
-  constructor(private matchService: MatchService) { }
-}
-```
-**match-list.component.html**
-```html
-<h2>Match History</h2>
-<ul>
-  <li *ngFor="let match of matches">
-    {{ match.date | date }}: {{match.player1name}}
-    <strong>{{match.player1score}}</strong> -
-    <strong>{{match.player2score}}</strong> {{match.player2name}}
-    <a routerLink="/match/edit/{{match.id}}">edit</a>
-  </li>
-</ul>
+  add(match:Match): Match{
+    match.date = new Date();
+    this.matches.push(match);
+    return match;
+  }
 ```
 
-## 4. Split the match-list component
-- Splitting the template
-- Render each item individually
+- Bind it to onSubmit
 
-**match-list-item.component.ts**
+**match-add.component.ts**
 ```typescript
-export class MatchListItemComponent {
-  @Input() match: Match | undefined;
-}
+  constructor(private fb: FormBuilder, private matchService: MatchService) { }
+
+  onSubmit() {
+    this.matchService.add(
+      this.addMatchForm.value
+    );
+  }
 ```
 
-**match-list-item.component.html**
+**match-add.component.html**
 ```html
-<div *ngIf="match">
-  {{ match.date | date }}: {{match.player1name}}
-  <strong>{{match.player1score}}</strong> -
-  <strong>{{match.player2score}}</strong> {{match.player2name}}
-</div>
-```
-
-- Render the items in the template
-**match-list.component.html**
-```html
-<h2>Match History</h2>
-<ul>
-  <li *ngFor="let match of matches"> 
-    <app-match-list-item [match]="match"></app-match-list-item>
-    <a routerLink="/match/edit/{{match.id}}">edit</a>
-  </li>
-</ul>
+  (ngSubmit)="onSubmit()"
 ```
