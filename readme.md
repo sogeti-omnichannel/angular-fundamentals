@@ -2,42 +2,14 @@
 The materials shared via this Github repository is used as a resource and future reference for participants. The complete Sogeti Angular Fundamentals course is setup with two active teachers, and training modules that consist of live coding and theory. 
 ## Modules
 0. Core Concepts
-  * Theory
-    * Introduction
-    * Angular, Vue and React
-    * Versions
-    * AngularJS vs Angular
-    * Architectuur
-1. Getting started
-  * Theory
-    * Breakout rooms: draw out tournament application
-  * Live coding
-    * Project genereren met CLI
-    * Bekijken project structuur
-    * NPM: adding Bootstrap
-2. Routing
-  * Component routing (JS / HTML)
-  * Guards
-3. TypeScript
-4. Components & Services
-  * Theory
-    * Templates
-    * Directives
-    * Databinding
-    * Pipes
-    * Dom annotation
-  * Live coding
-5. Forms
-  * Theory
-    * Angular Forms
-    * Template vs Reactive forms
-  * Live coding
-6. Observables
-  * Theory
-    * Promises vs observables
-    * Observables
-  * Live coding
-    * Getting data from API
+1. [Getting started](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/1-getting-started)
+1. [Routing](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/2-routing)
+1. [Components & Services](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/3-components-and-services)
+1. [Forms](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/4-forms)
+1. [Observables](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/5-observables)
+1. [Bonus](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/6-bonus)
+
+The [TypeScript Fundamentals course](https://github.com/sogeti-omnichannel/typescript-fundamentals) is used as a module within the Angular Fundamentals course.
 ## Requirements
 ### JavaScript and HTML knowledge
 Basic JavaScript and HTML knowledge is mandatory. Even better: good JavaScript knowledge will ease the steep learning curve of Angular. For example: knowledge of HTML form validation will make it easy to understand the concepts of the Angular FormBuilder. Knowledge of pure JavaScript decorators will make it easy to understand the syntax of Angular Components, Services, etc.
