@@ -1,4 +1,4 @@
-export class Match {
+export interface Match {
     id: string;
     player1name: string;
     player1score: Number;
