@@ -5,7 +5,7 @@ export const MATCHES: Match[] = [
     {
         "player1name": "Emiel",
         "player1score": 8,
-        "player2name": "Roger",
+        "player2name": "Mert",
         "player2score": 10,
         "id": "r1m16r-jz",
         "date": new Date("2020-04-01T19:10:12.618Z")
@@ -13,7 +13,7 @@ export const MATCHES: Match[] = [
     {
         "player1name": "Ferry",
         "player1score": 7,
-        "player2name": "Roger",
+        "player2name": "Mert",
         "player2score": 10,
         "id": "SkaJTSWsG",
         "date": new Date("2020-04-02T18:50:12.586Z")
@@ -42,7 +42,7 @@ export const PLAYERS: Player[] = [
     },
     {
         "id": "Hy-7k6S-jz",
-        "name": "Roger",
+        "name": "Mert",
         "points": 3,
         "wins": 1,
         "losses": 2,
