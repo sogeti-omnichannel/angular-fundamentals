@@ -1,1 +1,5 @@
-<p>match-list-item works!</p>
+<div *ngIf="match">
+  {{ match.date | date }}: {{match.player1name}}
+  <strong>{{match.player1score}}</strong> -
+  <strong>{{match.player2score}}</strong> {{match.player2name}}
+</div>

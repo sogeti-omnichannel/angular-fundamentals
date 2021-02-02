@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PlayerRoutingModule } from './player-routing.module';
 import { PlayerRankComponent } from './player-rank/player-rank.component';
+import { PlayerService } from './player.service';
 
 
 @NgModule({
@@ -10,6 +11,9 @@ import { PlayerRankComponent } from './player-rank/player-rank.component';
   imports: [
     CommonModule,
     PlayerRoutingModule
+  ],
+  providers: [
+    PlayerService,
   ]
 })
 export class PlayerModule { }
