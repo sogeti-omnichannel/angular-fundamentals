@@ -1,98 +1,86 @@
-# Sogeti Angular course - Observables
+# Sogeti Angular course - Bonus
+# Edit match
+### Generate Match Edit component
+- run `ng generate component match/match-edit`
 
-## 1. Using back end to get matches
-- Import the `HttpClientModule` in the match module
-
-**src/app/match/match.module.ts**
+### Update route
+**match-routing.module.ts**
+Add the edit route the match-routing module and make sure to add the id as variable.
 ```typescript
-import { HttpClientModule } from '@angular/common/http';
+  { path: 'match/edit/:id', component: MatchEditComponent },
 ```
 
-- Update function for getMatches to use http
-**src/app/match/match.service.ts**
-```typescript
-export class MatchService {
-  _matches: Match[] = MATCHES;
-  baseUrl = 'http://localhost:8080';
-  matchUrl = '/api/match';
-
-  constructor(private http: HttpClient) { }
-
-  get matches(): Observable<Match[]> {
-    return this.http.get<Match[]>(this.baseUrl + this.matchUrl);
-  }
-
-  add(match: Match): Match {
-    match.date = new Date();
-    this._matches.push(match);
-    return match;
-  }
-}
+### Add link to the edit page
+**match-list-item.component.html**
+```html
+<a routerLink="/match/edit/{{match.id}}">edit</a>
 ```
 
-- Update component to subscribe to changes
+Check if the link works in the browser.
 
-**src/app/match/match-list/match-list.component.ts**
+## Setup 
+**match-edit.component.ts**
 ```typescript
-export class MatchListComponent implements OnInit {
-  matches: Match[] = [];
+  import { Component, OnInit, OnChanges } from '@angular/core';
+  import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+  import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+  import { Match } from '../match';
+  import { MatchService } from '../match.service';
+  import { Observable } from 'rxjs/Observable';
+  
+  match: Match;
 
-  constructor(private matchService: MatchService) { }
-
-  ngOnInit(): void {
-    this.matchService.matches.subscribe(
-        matches => this.matches = matches
-    );
-  }
-}
-```
- 
-## 2. Using back end to add matches
-- Update add function
-
-**src/app/match/match.service.ts**
-```typescript
-export class MatchService {
-  _matches: Match[] = MATCHES;
-  baseUrl = 'http://localhost:8080';
-  matchUrl = '/api/match';
-
-  constructor(private http: HttpClient) { }
-
-  get matches(): Observable<Match[]> {
-    return this.http.get<Match[]>(this.baseUrl + this.matchUrl);
-  }
-
-  add(match: Match): Observable<Match> {
-    return this.http.post<Match>(this.baseUrl + this.matchUrl, match, httpOptions);
-  }
-}
-```
-
-- Subscribe to changes in add component
-**src/app/match/match-add/match-add.component.ts**
-```typescript
-  onSubmit() {
-    this.matchService.add(
-      this.addMatchForm.value
-    ).subscribe();
-  }
-```
-
-- Navigate back to `match/list` route after adding the score
-**src/app/match/match-add/match-add.component.ts**
-```typescript
-  constructor(...
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
-  ) { 
-    ...
+    private matchService: MatchService) { }
+
+  editMatchForm = this.fb.group({
+    player1name: ['', Validators.required],
+    player1score: ['', [Validators.required, Validators.min(0)]],
+    player2name: ['', Validators.required],
+    player2score: ['', [Validators.required, Validators.min(0)]]
+  });
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(
+        params => this.matchService.getMatch(params.get('id'))
+          .subscribe(
+            (match) => {
+              this.match = match;
+              this.editMatchForm.patchValue(this.match);
+            }
+          )
+      );
   }
 
   onSubmit() {
-    this.matchService.add(
-      this.addMatchForm.value
-    ).subscribe(() => {
+    this.matchService.update(
+      this.match.id,
+      this.editMatchForm.value
+    ).subscribe((match: Match) => {
       this.router.navigate(['/match/list']);
     });
   }
+```
+
+**match-edit.component.html**
+```html
+  <h2>Edit Match</h2>
+
+  <form [formGroup]="editMatchForm" (ngSubmit)="onSubmit()">
+    <div class="player1">
+      <input formControlName="player1name" placeholder="Player 1">
+      <input formControlName="player1score" placeholder="Score">
+    </div>
+    vs
+    <div class="player2">
+      <input formControlName="player2name" placeholder="Player 2">
+      <input formControlName="player2score" placeholder="Score">
+    </div>
+    <div>
+      <button type="submit">Save</button>
+    </div>
+  </form>
 ```
