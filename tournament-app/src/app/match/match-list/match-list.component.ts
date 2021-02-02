@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Match } from '../match';
 import { MatchService } from '../match.service';
 
 @Component({
@@ -6,8 +7,14 @@ import { MatchService } from '../match.service';
   templateUrl: './match-list.component.html',
   styleUrls: ['./match-list.component.css']
 })
-export class MatchListComponent {
-  matches = this.matchService.matches;
+export class MatchListComponent implements OnInit {
+  matches: Match[] = [];
 
   constructor(private matchService: MatchService) { }
+
+  ngOnInit(): void {
+    this.matchService.matches.subscribe(
+        matches => this.matches = matches
+    );
+  }
 }

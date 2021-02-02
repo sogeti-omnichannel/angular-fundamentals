@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MatchService } from '../match.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class MatchAddComponent {
   constructor(
     private fb: FormBuilder,
     private matchService: MatchService,
+    private router: Router,
   ) {
     this.addMatchForm = this.fb.group({
       player1name: ['', Validators.required],
@@ -23,11 +25,10 @@ export class MatchAddComponent {
   }
 
   onSubmit() {
-    if (!this.addMatchForm.valid) {
-      throw new Error('mispoes!');
-    }
     this.matchService.add(
       this.addMatchForm.value
-    );
+    ).subscribe(() => {
+      this.router.navigate(['/match/list']);
+    });
   }
 }
