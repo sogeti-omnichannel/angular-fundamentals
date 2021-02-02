@@ -11,4 +11,11 @@ export class MatchService {
   get matches(): Match[] {
     return this._matches;
   }
+
+  add(match: Match): Match {
+    console.log('adding', match);
+    match.date = new Date();
+    this._matches.push(match);
+    return match;
+  }
 }

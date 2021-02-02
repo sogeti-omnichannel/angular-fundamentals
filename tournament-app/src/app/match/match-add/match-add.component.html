@@ -1,1 +1,28 @@
-<p>match-add works!</p>
+<h2>Add Match</h2>
+<form [formGroup]="addMatchForm" (ngSubmit)="onSubmit()">
+  <div class="player1">
+    <input type="text" formControlName="player1name" placeholder="Player 1">
+    <input type="number" formControlName="player1score" placeholder="Score">
+    <div *ngIf="!addMatchForm.get('player1name')?.pristine && addMatchForm.get('player1name')?.hasError('required')">
+      Player name is required
+    </div>
+    <div *ngIf="!addMatchForm.get('player1score')?.pristine && addMatchForm.get('player1score')?.hasError('min')">
+      Score needs to be 0 or higher
+    </div>
+  </div>
+  vs
+  <div class="player2">
+    <input type="text" formControlName="player2name" placeholder="Player 2">
+    <input type="number" formControlName="player2score" placeholder="Score">
+    <div *ngIf="!addMatchForm.get('player2name')?.pristine && addMatchForm.get('player2name')?.hasError('required')">
+      Player name is required
+    </div>
+    <div *ngIf="!addMatchForm.get('player2score')?.pristine && addMatchForm.get('player2score')?.hasError('min')">
+      Score needs to be 0 or higher
+    </div>
+  </div>
+
+  <div>
+    <button type="submit" [disabled]="!addMatchForm.valid">Add</button>
+  </div>
+</form>
