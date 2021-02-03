@@ -8,10 +8,18 @@
 1. **Observables**
 1. [Bonus](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/6-bonus)
 ## 1. Using back end to get matches
-Import the `HttpClientModule` in the match module
+Import the `HttpClientModule` in the match module.
 **src/app/match/match.module.ts**
 ```typescript
 import { HttpClientModule } from '@angular/common/http';
+...
+imports: [
+    CommonModule,
+    MatchRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
+...
 ```
 
 Update function for getMatches to use http
