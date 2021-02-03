@@ -1,4 +1,12 @@
 # Sogeti Angular course - Getting started
+## Modules
+0. [Core Concepts](https://github.com/sogeti-omnichannel/angular-fundamentals)
+1. **Getting started**
+1. [Routing](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/2-routing)
+1. [Components & Services](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/3-components-and-services)
+1. [Forms](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/4-forms)
+1. [Observables](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/5-observables)
+1. [Bonus](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/6-bonus)
 ## Generate app, modules & components
 - run `npm install -g @angular/cli` to install the Angular CLI globally.
 - run `ng new tournament-app --routing --strict` to generate a new project called 'tournament-app' and directly generate routing capabilities.
