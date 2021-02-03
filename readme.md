@@ -1,5 +1,12 @@
 # Sogeti Angular course - Forms
-
+## Modules
+0. [Core Concepts](https://github.com/sogeti-omnichannel/angular-fundamentals)
+1. [Getting started](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/1-getting-started)
+1. [Routing](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/2-routing)
+1. [Components & Services](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/3-components-and-services)
+1. **Forms**
+1. [Observables](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/5-observables)
+1. [Bonus](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/6-bonus)
 ## 1. Adding a match
 - Create a link to navigate to the form
 
@@ -8,14 +15,13 @@
 <a routerLink="/match/add">Add Match</a>
 ```
 
-- Import the reactive forms module in the match module, by adding `ReactiveFormsModule` to the imports array
+Import the reactive forms module in the match module, by adding `ReactiveFormsModule` to the imports array
 **src/match/match.module.ts**
 ```typescript
 import { ReactiveFormsModule } from '@angular/forms';
 ```
 
-- Use formbuilder to create the form with validators
-
+Use formbuilder to create the form with validators
 **src/match/match-add/match-add.component.ts**
 - Import FormBuilder, FormGroup and Validators at the top of `match-add.component.ts`.
 ```typescript
@@ -42,7 +48,7 @@ export class MatchAddComponent {
 }
 ```
 
-- Render the form
+Render the form
 **src/match/match-add/match-add.component.html**
 ```html
 <h2>Add Match</h2>
@@ -74,10 +80,8 @@ export class MatchAddComponent {
   </div>
 </form>
 ```
-
 ## 2. Writing to service
-- Add function to match service to store new matches
-
+Add function to match service to store new matches
 **src/match/match.service.ts**
 ```typescript
   add(match:Match): Match{
@@ -87,7 +91,7 @@ export class MatchAddComponent {
   }
 ```
 
-- Bind it to onSubmit
+Bind it to onSubmit
 **src/match/match-add/match-add.component.ts**
 ```typescript
   constructor(private fb: FormBuilder, private matchService: MatchService) { }
