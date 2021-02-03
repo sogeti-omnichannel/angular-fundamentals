@@ -3,7 +3,7 @@
 
 The materials shared via this Github repository is used as a resource and future reference for participants. The complete Sogeti Angular Fundamentals course is setup with two active teachers, and training modules that consist of live coding and theory. 
 ## Modules
-0. Core Concepts
+0. **Core Concepts**
 1. [Getting started](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/1-getting-started)
 1. [Routing](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/2-routing)
 1. [Components & Services](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/3-components-and-services)
