@@ -1,25 +1,30 @@
 # Sogeti Angular course - Bonus
-# Edit match
+## Modules
+0. [Core Concepts](https://github.com/sogeti-omnichannel/angular-fundamentals)
+1. [Getting started](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/1-getting-started)
+1. [Routing](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/2-routing)
+1. [Components & Services](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/3-components-and-services)
+1. [Forms](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/4-forms)
+1. [Observables](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/5-observables)
+1. **Bonus**
+## Edit match
 ### Generate Match Edit component
-- run `ng generate component match/match-edit`
-
+run `ng generate component match/match-edit`
 ### Update route
-**match-routing.module.ts**
+**src/app/match/match-routing.module.ts**
 Add the edit route the match-routing module and make sure to add the id as variable.
 ```typescript
   { path: 'match/edit/:id', component: MatchEditComponent },
 ```
-
 ### Add link to the edit page
-**match-list-item.component.html**
+**src/app/match/match-list-item/match-list-item.component.html**
 ```html
 <a routerLink="/match/edit/{{match.id}}">edit</a>
 ```
 
 Check if the link works in the browser.
-
-## Setup 
-**match-edit.component.ts**
+### Create form using FormBuilder
+**src/app/match/match-edit/match-edit.component.ts**
 ```typescript
   import { Component, OnInit, OnChanges } from '@angular/core';
   import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -65,7 +70,7 @@ Check if the link works in the browser.
   }
 ```
 
-**match-edit.component.html**
+**src/app/match/match-edit/match-edit.component.html**
 ```html
   <h2>Edit Match</h2>
 
