@@ -1,7 +1,14 @@
 # Sogeti Angular course - Components & Services
+## Modules
+0. [Core Concepts](https://github.com/sogeti-omnichannel/angular-fundamentals)
+1. [Getting started](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/1-getting-started)
+1. [Routing](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/2-routing)
+1. **Components & Services**
+1. [Forms](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/4-forms)
+1. [Observables](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/5-observables)
+1. [Bonus](https://github.com/sogeti-omnichannel/angular-fundamentals/tree/6-bonus)
 ## 1. Add mockdata, match and player interface to the project
 - Merge files from `/server/frontend/src/` in the tournament-app project (`/tournament-app/src/`)
-
 ## 2. Generate services
 - run `ng generate service match/match`
 - run `ng generate service player/player`
@@ -42,7 +49,6 @@ export class MatchService {
   }
 }
 ```
-
 ## 3. Call match service from list component
 **src/match/match-list/match-list.component.ts**
 ```typescript
@@ -52,7 +58,7 @@ export class MatchListComponent {
   constructor(private matchService: MatchService) { }
 }
 ```
-**match-list.component.html**
+**src/app/match/match-list/match-list.component.html**
 ```html
 <h2>Match History</h2>
 <ul>
@@ -64,19 +70,18 @@ export class MatchListComponent {
   </li>
 </ul>
 ```
-
 ## 4. Split the match-list component
-- Splitting the template
-- Render each item individually
+In the current situation we have a match-list component that contains logic to show a match-list-item for every match. In this section we are going to split this up in two different components: the parent `match-list` will pass data from a single match to the child `match-list-item` component. It will demonstrate the use of the `Input` decorator in a component.
 
-**match-list-item.component.ts**
+**src/app/match/match-list-item/match-list-item.component.ts**
 ```typescript
 export class MatchListItemComponent {
   @Input() match: Match | undefined;
 }
 ```
 
-**match-list-item.component.html**
+Copy the content of the list-item from `match-list` into the `match-list-item` and use the *ngIf directive.
+**src/app/match/match-list-item/match-list-item.component.html**
 ```html
 <div *ngIf="match">
   {{ match.date | date }}: {{match.player1name}}
@@ -85,8 +90,8 @@ export class MatchListItemComponent {
 </div>
 ```
 
-- Render the items in the template
-**match-list.component.html**
+Render the items in the template
+**src/app/match/match-list/match-list.component.html**
 ```html
 <h2>Match History</h2>
 <ul>
